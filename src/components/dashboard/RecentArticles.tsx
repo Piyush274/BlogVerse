@@ -12,14 +12,15 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import type { Prisma } from "@prisma/client";
-import { deleteArticle } from "@/actions/delete-article";
+import { deleteArticle } from "@/actions/deleteArticle";
  
 type RecentArticlesProps = {
   articles: Prisma.ArticlesGetPayload<{
     include: {
       comments: true;
       author: {
-        select: {
+        select: 
+        {
           name: true;
           email: true;
           imageUrl: true;
@@ -41,7 +42,7 @@ const RecentArticles: React.FC<RecentArticlesProps> = ({ articles }) => {
         </div>
       </CardHeader>
       {!articles.length ? (
-        <CardContent>No articles found.</CardContent>
+        <CardContent>No articles found</CardContent>
       ) : (
         <CardContent>
           <Table>

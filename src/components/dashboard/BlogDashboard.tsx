@@ -1,7 +1,7 @@
 import { FileText, MessageCircle, PlusCircle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import RecentArticles from "./recent-articles";
+import RecentArticles from "@/components/dashboard/RecentArticles";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
