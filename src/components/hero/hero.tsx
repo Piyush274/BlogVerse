@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 export function Hero() {
   return (
     <section className="relative min-h-[600px] w-full overflow-hidden bg-gradient-to-br from-purple-950 via-indigo-950 to-indigo-950">
-      {/* Gradient overlay */}
+     
       <div className="absolute inset-0 before:absolute before:left-1/4 before:top-0 before:h-[500px] before:w-[500px] before:rounded-full before:bg-gradient-to-r before:from-violet-600/20 before:to-indigo-600/20 before:blur-3xl" />
 
       <div className="container relative mx-auto flex h-full flex-col items-center justify-center px-4 py-24 md:flex-row md:py-32">
-        {/* Content */}
+        
         <div className="flex-1 space-y-8 text-center md:text-left">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
             Explore the World Through
