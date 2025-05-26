@@ -2,10 +2,11 @@ import EditArticlePage from '@/components/articles/EditArticlePage'
 import { prisma } from '@/lib/prisma'
  
 import React from 'react'
-type Props = {
+
+type PropsType = {
     params:Promise<{id:string}>
 }
-const page = async ({params}:Props) => { 
+const page = async ({params}:PropsType) => { 
     const id = (await params).id
     const article = await prisma.articles.findUnique({
         where:{

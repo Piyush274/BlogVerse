@@ -26,7 +26,8 @@ export default function page()
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    //Addnd the content to the FormData object
+
+    //Addnd the content to the FormData object because ReactQuill does not submit the content as part of the form data
     formData.append("content", content);
 
     // Wrap the action call in startTransition so that content also goes to the server
