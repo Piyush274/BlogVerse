@@ -1,4 +1,5 @@
 "use server";
+
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -36,15 +37,15 @@ type CreateArticleFormState = {
 //Function is async so return type is Promise
 export const createArticle = async (prevState: CreateArticleFormState,formData: FormData): Promise<CreateArticleFormState> => 
 { 
-  const result = createArticleSchema.safeParse({
-    title: formData.get("title"),
+  const result = createArticleSchema.safeParse({  //zod method that validates form data, does not throw error, returns object with success and error properties
+    title: formData.get("title"), 
     category: formData.get("category"),
     content: formData.get("content"), 
   });
 
   if (!result.success) {
     return {
-      errors: result.error.flatten().fieldErrors,
+      errors: result.error.flatten().fieldErrors, //flattens the zod error object to a simpler structure
     };
   }
 
@@ -63,6 +64,7 @@ export const createArticle = async (prevState: CreateArticleFormState,formData: 
   const existingUser = await prisma.user.findUnique({
     where: { clerkUserId: userId },
   });
+
 
   if (!existingUser) {
     return {
@@ -145,5 +147,6 @@ export const createArticle = async (prevState: CreateArticleFormState,formData: 
 
   //Afrer creating the article, revalidate the path to update the cache, only refreshes the updated data rest cache
   revalidatePath("/dashboard");
+  
   redirect("/dashboard");
 };
