@@ -93,7 +93,6 @@ export async function BlogDashboard()
         </Card>
       </div>
 
-      {/* Recent Articles */}
       <RecentArticles articles={articles} />
     </main>
   );
