@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@/generated/prisma";
 import { deleteArticle } from "@/actions/deleteArticle";
  
 type RecentArticlesProps = {

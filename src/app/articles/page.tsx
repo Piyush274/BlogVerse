@@ -1,27 +1,30 @@
 import {
   AllArticlesPage, 
-} from "@/components/articles/all-articles-page";
-import ArticleSearchInput from "@/components/articles/article-search-input";
+} from "@/components/articles/AllArticlesPage";
+import ArticleSearchInput from "@/components/articles/ArticleSearchInput";
 import { Button } from "@/components/ui/button";
 import React, { Suspense } from "react";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { fetchArticleByQuery } from "@/lib/query/fetch-articles";
+import { fetchArticleByQuery } from "@/lib/query/fetchArticleByQuery";
 import Link from "next/link";
 
 type SearchPageProps = {
   searchParams: { search?: string; page?: string };
 };
 
+//Pagination
 const ITEMS_PER_PAGE = 3; // Number of items per page
 
 const page: React.FC<SearchPageProps> = async ({ searchParams }) => {
-  const searchText = searchParams.search || "";
-  const currentPage = Number(searchParams.page) || 1;
-  const skip = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const searchText = (await searchParams).search || "";
+  const currentPage = Number((await searchParams).page) || 1; // Default to page 1 if not provided
+  const skip = (currentPage - 1) * ITEMS_PER_PAGE; //Skip 3* ITEMS_PER_PAGE for each page
   const take = ITEMS_PER_PAGE;
 
   const { articles, total } = await fetchArticleByQuery(searchText, skip, take);
+
   const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
  
 

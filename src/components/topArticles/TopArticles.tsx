@@ -68,7 +68,6 @@ export async function TopArticles() {
              
               <div className="mt-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                 <span>{new Date(article.createdAt).toDateString()}</span>
-                <span>{12} min read</span>
               </div>
             </Link>
           </div>

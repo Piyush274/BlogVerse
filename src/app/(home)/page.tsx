@@ -22,7 +22,6 @@ export default function page() {
             </p>
           </div>
 
-          {/* Top Articles */}
           <Suspense fallback={<h1>Loading....</h1>}>
             <TopArticles/>
           </Suspense>

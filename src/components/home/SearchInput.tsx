@@ -16,7 +16,7 @@ const SearchInput = () => {
         <Input
           type="search"
           name="search"
-          defaultValue={params.get("search") || ""}
+          defaultValue={params.get("search") || ""} //"whatever search will be stored in the URL
           placeholder="Search articles..."
           className="pl-10 w-48 focus-visible:ring-1"
         />
