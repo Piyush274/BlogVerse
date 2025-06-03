@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, PenTool, Sparkles } from "lucide-react";
 import ModeToggle from "./ToggleMode";
 import Link from "next/link";
 import { SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
@@ -13,85 +13,95 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 h-16">
+        {/* Left side - Logo and Navigation */}
+        <div className="flex items-center gap-6">
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 text-xl font-semibold tracking-tight hover:opacity-80 transition-opacity"
+          >
+            <PenTool className="h-5 w-5 text-primary" />
+            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+              BlogVerse
+            </span>
+            <span className="hidden sm:inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-2">
+              <Sparkles className="h-3 w-3 mr-1" />
+              New
+            </span>
+          </Link>
 
-          <div className="flex items-center gap-8">
-            {/* Todo: Add Logo here*/}
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold">
-                <span className="bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                  Blog
-                </span>
-                <span className="text-foreground">Verse</span>
-              </span>
-            </Link>
-
-            <div className="hidden md:flex items-center gap-4">
-              <Link
-                href="/articles"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+          <div className="hidden md:flex items-center gap-1">
+            <Link href="/articles">
+              <Button variant="ghost" className="text-sm font-medium">
                 Articles
-              </Link>
-              <Link
-                href="/about"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
+              </Button>
+            </Link>
+            <Link href="/about">
+              <Button variant="ghost" className="text-sm font-medium">
                 About
-              </Link>
-              <Link
-                href="/dashboard"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Dashboard
-              </Link>
-            </div>
+              </Button>
+            </Link>
           </div>
+        </div>
 
+        {/* Right side - User controls */}
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            <SearchInput />
+          </div>
           
-          <div className="flex items-center gap-4">
-            
-            <SearchInput/>
-
-           
-            <ModeToggle />
-
-           
-            <SignedIn>              
-              <UserButton/>
-            </SignedIn>
-            <SignedOut>
-              <div className="hidden md:flex items-center gap-2">
-                <SignInButton>
-                  <Button variant="outline">Login</Button>
-                </SignInButton>
-                <SignUpButton>
-                  <Button>Sign up</Button>
-                </SignUpButton>
-              </div>
-            </SignedOut>
-
-            {/*For Mobile screens */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden text-muted-foreground hover:text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          <Link href="/dashboard">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden sm:flex text-sm font-medium hover:bg-accent/90"
             >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              Dashboard
             </Button>
-          </div>
+          </Link>
+
+          <ModeToggle />
+          
+          <SignedIn>              
+            <div className="ml-2">
+              <UserButton />
+            </div>
+          </SignedIn>
+          
+          <SignedOut>
+            <div className="hidden md:flex items-center gap-2">
+              <SignInButton>
+                <Button variant="outline" size="sm" className="text-sm font-medium">
+                  Login
+                </Button>
+              </SignInButton>
+              <SignUpButton>
+                <Button size="sm" className="text-sm font-medium bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            </div>
+          </SignedOut>
+
+          {/* Mobile menu button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden text-muted-foreground hover:text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </Button>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 space-y-4 border-t">
+          <div className="absolute top-16 left-0 right-0 md:hidden py-4 space-y-4 border-t bg-background">
             {/* Search Bar (Mobile) */}
             <div className="px-4">
               <div className="relative">
@@ -104,33 +114,25 @@ export function Navbar() {
               </div>
             </div>
 
-            {/*For Mobile Screen UI*/}
-
-            <div className="space-y-2 px-4">
+            {/* Mobile Navigation */}
+            <div className="space-y-1 px-4">
               <Link
                 href="/articles"
-                className="block px-3 py-2 text-base font-medium text-foreground"
+                className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Articles
               </Link>
               <Link
-                href="/tutorials"
-                className="block px-3 py-2 text-base font-medium text-foreground"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Tutorials
-              </Link>
-              <Link
                 href="/about"
-                className="block px-3 py-2 text-base font-medium text-foreground"
+                className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/dashboard"
-                className="block px-3 py-2 text-base font-medium text-foreground"
+                className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Dashboard
@@ -138,22 +140,23 @@ export function Navbar() {
             </div>
 
             {/* Mobile Auth Buttons */}
-
             <SignedOut>
-              <div className="px-4 flex flex-col gap-2">
+              <div className="px-4 flex flex-col gap-2 pt-2">
                 <SignInButton>
                   <Button variant="outline" className="w-full">
                     Login
                   </Button>
                 </SignInButton>
                 <SignUpButton>
-                  <Button className="w-full">Sign up</Button>
+                  <Button className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+                    Sign Up
+                  </Button>
                 </SignUpButton>
               </div>
             </SignedOut>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
