@@ -33,6 +33,11 @@ export function Footer() {
                 <Linkedin className="h-5 w-5" />
               </Link>
             </Button>
+            <Button asChild variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+              <Link href="mailto:piyushsangam222@gmail.com" target="_blank" rel="noopener noreferrer">
+                <Mail className="h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
 

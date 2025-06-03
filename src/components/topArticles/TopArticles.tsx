@@ -36,7 +36,10 @@ export async function TopArticles() {
         >
           <div className="p-6">
             <Link href={`/articles/${article.id}`}>
-             
+
+              <p className="mt-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-sm text-primary">
+              {article.category}
+              </p>
               <div className="relative mb-4 h-48 w-full overflow-hidden rounded-xl">
                 <Image
                   src={article.featuredImage as string}
@@ -48,6 +51,7 @@ export async function TopArticles() {
 
              
               <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
+
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={article.author.imageUrl as string} />
                   <AvatarFallback>
@@ -61,9 +65,7 @@ export async function TopArticles() {
               <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
                 {article.title}
               </h3>
-              <p className="mt-2 text-gray-600 dark:text-gray-300">
-                {article.category}
-              </p>
+
 
              
               <div className="mt-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">

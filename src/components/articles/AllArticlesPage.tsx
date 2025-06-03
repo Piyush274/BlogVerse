@@ -37,6 +37,9 @@ export function AllArticlesPage({ articles }: SearchPageProps) {
         >
           <div className="p-6">
              <Link href={`/articles/${article.id}`}>
+                           <p className="mt-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-sm text-primary">
+              {article.category}
+              </p>
             <div className="relative mb-4 h-48 w-full overflow-hidden rounded-xl">
               <Image
                 src={article.featuredImage as string}
@@ -49,7 +52,6 @@ export function AllArticlesPage({ articles }: SearchPageProps) {
             <h3 className="text-xl font-semibold text-foreground">
               {article.title}
             </h3>
-            <p className="mt-2 text-muted-foreground">{article.category}</p>
 
             {/* Author & Metadata */}
             <div className="mt-6 flex items-center justify-between">

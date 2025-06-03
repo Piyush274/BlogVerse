@@ -55,9 +55,9 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           {/* Article Header */}
           <header className="mb-12">
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
-                {article.category}
-              </span>
+              <p className="mt-2 inline-block rounded-full bg-gradient-to-r from-primary to-purple-600 px-3 py-1 text-sm font-sm text-black">
+              {article.category}
+              </p>
             </div>
 
             <h1 className="text-4xl font-bold tracking-tight text-foreground mb-4">

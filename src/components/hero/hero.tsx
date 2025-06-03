@@ -103,7 +103,7 @@ export default function Hero() {
               </p>
               <div className="mt-auto flex justify-between items-center">
                 <span className="text-xs text-muted-foreground">5 min read</span>
-                <Link href="/articles/cmbgq0s6h00013d786vjaot0g">
+                <Link href="/articles">
                 <Button variant="ghost" size="sm" className="text-primary">
                   Read more
                 </Button>

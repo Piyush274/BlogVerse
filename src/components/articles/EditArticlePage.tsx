@@ -66,10 +66,18 @@ const EditArticlePage: React.FC<EditArticlePageProps> = ({ article }) => {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 required
               >
-                <option value="">Select Category</option>
-                <option value="technology">Technology</option>
-                <option value="programming">Programming</option>
-                <option value="web-development">Web Development</option>
+<option value="">Select Category</option>
+<option value="Data Science">Data Science</option>
+<option value="Machine Learning">Machine Learning</option>
+<option value="Cybersecurity">Cybersecurity</option>
+<option value="Cloud Computing">Cloud Computing</option>
+<option value="UI/UX Design">UI/UX Design</option>
+<option value="DevOps">DevOps</option>
+<option value="AI">Artificial Intelligence</option>
+<option value="Blockchain">Blockchain</option>
+<option value="Productivity">Productivity</option>
+<option value="Career Advice">Career Advice</option>
+<option value="Open Source">Open Source</option>
               </select>
               {formState.errors.category && (
                 <span className="font-medium text-sm text-red-500">

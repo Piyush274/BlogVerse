@@ -14,7 +14,7 @@ export default async function Layout({ children }: LayoutProps) {
   if (user) {
     try {
       const loggedInUser = await prisma.user.findUnique({
-        where: { clerkUserId: user.id },
+        where: { clerkUserId: user?.id },
       });
 
       if (!loggedInUser) {
@@ -23,7 +23,7 @@ export default async function Layout({ children }: LayoutProps) {
             name: user.fullName || 'Anonymous',
             email: user.emailAddresses[0]?.emailAddress || '',
             clerkUserId: user.id,
-            imageUrl: user.imageUrl || '',
+            imageUrl: user.imageUrl || "",
           },
         });
       }

@@ -4,27 +4,48 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import RecentArticles from "@/components/dashboard/RecentArticles";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { currentUser } from '@clerk/nextjs/server';
 
 export async function BlogDashboard() 
 {
-  const [articles, totalComments] = await Promise.all([
-    prisma.articles.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        comments: true,
-        author: {
-          select: {
-            name: true,
-            email: true,
-            imageUrl: true,
+
+  const user = await currentUser();
+
+// Fetch current user's articles and total comments
+const [userWithArticles, totalComments] = await Promise.all([
+  prisma.user.findUnique({
+    where: { clerkUserId: user?.id },
+    include: {
+      articles: {
+        orderBy: { createdAt: 'desc' },
+        include: { 
+          comments: true, 
+          likes: true,
+          author: {
+            select: {
+              name: true,
+              email: true,
+              imageUrl: true,
+            },
           },
         },
       },
-    }),
-    prisma.comment.count(),
-  ]);
+    },
+  }),
+  prisma.comment.count({
+    where: {
+      article: {
+        author: {
+          clerkUserId: user?.id,
+        },
+      },
+    },
+  }),
+]);
+
+// Access articles like:
+const articles = userWithArticles?.articles ?? [];
+
 
   return (
     <main className="flex-1 p-4 md:p-8">
@@ -57,7 +78,7 @@ export async function BlogDashboard()
           <CardContent>
             <div className="text-2xl font-bold">{articles.length}</div> 
             <p className="text-xs text-muted-foreground mt-1">
-              +5 from last month
+            {articles.length>0 && "+2 from last month"}  
             </p>
           </CardContent>
         </Card>
@@ -72,7 +93,7 @@ export async function BlogDashboard()
           <CardContent>
             <div className="text-2xl font-bold">{totalComments}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              12 awaiting moderation
+              {totalComments>0 && "3 awaiting moderation"}
             </p>
           </CardContent>
         </Card>
@@ -85,9 +106,9 @@ export async function BlogDashboard()
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4.2m</div>
+            <div className="text-2xl font-bold"> {articles.length>0 ? "3.7m" : "0m"} </div>
             <p className="text-xs text-muted-foreground mt-1">
-              +0.8m from last month
+              {articles.length>0 && "+0.8m from last month"}
             </p>
           </CardContent>
         </Card>

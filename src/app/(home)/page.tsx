@@ -6,15 +6,16 @@ import { Button } from '@/components/ui/button'
 import React, { Suspense } from 'react'
 import Link from 'next/link'
 
+
 export default function page() {
   return (
     <div>
       <Navbar/>
       <Hero/>
-      <section className="relative py-16 md:py-24">
+      <section className="relative py-14 md:py-16">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+            <h2 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Featured Articles
             </h2>
             <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">

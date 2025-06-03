@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { createArticle } from "@/actions/createArticle";
+import Link from "next/link";
 
 //Only when the page is rendered in the browser, not on the server(server side rendering is false) else crashes
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -65,10 +66,18 @@ export default function page()
                 name="category"
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
-                <option value="">Select Category</option>
-                <option value="technology">Technology</option>
-                <option value="programming">Programming</option>
-                <option value="web-development">Web Development</option>
+<option value="">Select Category</option>
+<option value="Data Science">Data Science</option>
+<option value="Machine Learning">Machine Learning</option>
+<option value="Cybersecurity">Cybersecurity</option>
+<option value="Cloud Computing">Cloud Computing</option>
+<option value="UI/UX Design">UI/UX Design</option>
+<option value="DevOps">DevOps</option>
+<option value="AI">Artificial Intelligence</option>
+<option value="Blockchain">Blockchain</option>
+<option value="Productivity">Productivity</option>
+<option value="Career Advice">Career Advice</option>
+<option value="Open Source">Open Source</option>
               </select>
 
               {formState.errors.category && (
@@ -114,9 +123,11 @@ export default function page()
               </div>
             )}
             <div className="flex justify-end gap-4">
+              <Link href="/dashboard">
               <Button type="button" variant="outline">
                 Cancel
               </Button>
+              </Link>
               <Button disabled={isPending} type="submit">
                 {isPending ? "Loading..." : "Publish Article"}
               </Button>
