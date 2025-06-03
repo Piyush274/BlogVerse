@@ -24,8 +24,8 @@ export async function TopArticles() {
   });
 
   return (
-    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {articles.slice(0, 3).map((article:any) => (
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {articles.slice(0, 4).map((article:any) => (
         <Card
           key={article.id}
           className={cn(

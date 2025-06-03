@@ -14,3 +14,5 @@ To Do :-
       <button onClick={handleSignOut} className="text-sm text-red-500 ml-4">
         Sign Out
       </button>
+
+2. Read more to that particular article
