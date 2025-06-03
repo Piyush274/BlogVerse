@@ -1,5 +1,5 @@
 "use client";
-// import { searchAction } from "@/actions/search";
+import { searchArticle } from "@/actions/searchArticle";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -9,8 +9,7 @@ const SearchInput = () => {
   const params = useSearchParams();
   
   return (
-    // <form action={searchAction}>
-      <form>
+    <form action={searchArticle}>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
