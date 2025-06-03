@@ -1,78 +1,116 @@
 "use client";
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Sparkles, PenTool, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { TypewriterEffect } from "@/components/ui/typewriter-effect"
+import { UserPen } from 'lucide-react';
 
-export function Hero() {
+export default function Hero() {
+  const words = [
+    { text: "Write" },
+    { text: "your" },
+    { text: "story", className: "text-primary" },
+    { text: "with" },
+    { text: "BlogVerse.", className: "text-purple-600" },
+  ];
+
   return (
-    <section className="relative min-h-[600px] w-full overflow-hidden bg-gradient-to-br from-purple-950 via-indigo-950 to-indigo-950">
-     
-      <div className="absolute inset-0 before:absolute before:left-1/4 before:top-0 before:h-[500px] before:w-[500px] before:rounded-full before:bg-gradient-to-r before:from-violet-600/20 before:to-indigo-600/20 before:blur-3xl" />
+    <section className="relative overflow-hidden">
 
-      <div className="container relative mx-auto flex h-full flex-col items-center justify-center px-4 py-24 md:flex-row md:py-32">
-        
-        <div className="flex-1 space-y-8 text-center md:text-left">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-            Explore the World Through
-            <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-              {" "}
-              Words
-            </span>
-          </h1>
+      <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary opacity-20 blur-[100px]"></div>
+      </div>
 
-          <p className="mx-auto max-w-2xl text-lg text-gray-300 md:text-xl">
-            Discover insightful articles, thought-provoking stories, and expert
-            perspectives on technology, lifestyle, and innovation.
-          </p>
-
-          <div className="flex flex-col items-center gap-4 sm:flex-row md:justify-start">
-            <Button size="lg" className="rounded-full px-8 py-6 text-lg">
-              Start Reading
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="rounded-full px-8 py-6 text-lg dark:text-white"
-            >
-              Explore Topics
-            </Button>
+      <div className="mx-auto max-w-7xl px-6 pt-24 pb-16 sm:pt-32 lg:flex lg:px-8 lg:py-40">
+        <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+          <div className="flex items-center gap-x-2 rounded-full bg-accent px-4 py-2 text-xs font-medium w-fit mb-6">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span>Introducing BlogVerse</span>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 pt-8 text-white md:max-w-md">
-            <div className="space-y-2">
-              <div className="text-2xl font-bold text-primary">1K+</div>
-              <div className="text-sm text-gray-400">Published Articles</div>
+          <TypewriterEffect words={words} className="text-left mb-6" />
+
+          <p className="mt-6 text-lg leading-8 text-muted-foreground">
+            A modern platform for writers and readers. Share your thoughts, discover new perspectives,
+            and join a community of passionate creators.
+          </p>
+
+          <div className="mt-10 flex items-center gap-x-6">
+
+
+              <Link href="/articles">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
+                >
+                  Get started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+
+              <Link href="/dashboard">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
+                >
+                  Go to Dashboard
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+
+          </div>
+
+          <div className="mt-10 flex items-center gap-x-4">
+            <div className="flex -space-x-2">
+              {/* Sample user avatars */}
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="h-10 w-10 rounded-full bg-gradient-to-r from-primary/20 to-purple-600/20 border-2 border-background flex items-center justify-center text-xs font-medium"
+                >
+                 <UserPen />
+                </div>
+              ))}
             </div>
-            <div className="space-y-2">
-              <div className="text-2xl font-bold text-primary">50+</div>
-              <div className="text-sm text-gray-400">Expert Writers</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-2xl font-bold text-primary">10M+</div>
-              <div className="text-sm text-gray-400">Monthly Readers</div>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Join <span className="font-medium text-primary">10,000+</span> creators
+            </p>
           </div>
         </div>
 
-        <div className="mt-12 flex-1 md:mt-0">
-          <div
-            className={cn(
-              "relative mx-auto h-64 w-64 rounded-2xl overflow-hidden",
-              "bg-gradient-to-br from-white/5 to-transparent",
-              "border border-primary/20 backdrop-blur-lg",
-              "shadow-2xl shadow-indigo-500/10"
-            )}
+        <div className="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative rounded-2xl bg-gradient-to-br from-primary/10 to-purple-600/10 p-2 ring-1 ring-primary/10 lg:w-[600px] lg:h-[400px]"
           >
-            <Image
-              src="https://images.unsplash.com/photo-1485988412941-77a35537dae4?q=80&w=2992&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Illustration for the blog"
-              fill
-              className="object-cover"
-            />
-          </div>
+            <div className="absolute -top-16 -left-16 w-32 h-32 rounded-full bg-purple-600/20 blur-3xl"></div>
+            <div className="absolute -bottom-16 -right-16 w-32 h-32 rounded-full bg-primary/20 blur-3xl"></div>
+            
+            {/* Mock blog post preview */}
+            <div className="bg-background/80 backdrop-blur rounded-xl h-full p-6 flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <PenTool className="h-4 w-4 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Featured Post</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">The Art of Storytelling in the Digital Age</h3>
+              <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
+                Discover how modern writers are adapting ancient storytelling techniques to captivate today's digital audiences. Learn the secrets of engagement that top bloggers use to keep readers coming back.
+              </p>
+              <div className="mt-auto flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">5 min read</span>
+                <Button variant="ghost" size="sm" className="text-primary">
+                  Read more
+                </Button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
-};
+}
