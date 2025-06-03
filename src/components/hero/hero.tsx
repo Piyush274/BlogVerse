@@ -39,7 +39,7 @@ export default function Hero() {
           <div className="mt-10 flex items-center gap-x-6">
 
 
-              <Link href="/articles">
+              <Link href="/dashboard/articles/create">
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
@@ -97,15 +97,17 @@ export default function Hero() {
                 </div>
                 <span className="text-sm font-medium">Featured Post</span>
               </div>
-              <h3 className="text-xl font-bold mb-2">The Art of Storytelling in the Digital Age</h3>
+              <h3 className="text-xl font-bold mb-2">How Blockchain is Reshaping the Digital World</h3>
               <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                Discover how modern writers are adapting ancient storytelling techniques to captivate today's digital audiences. Learn the secrets of engagement that top bloggers use to keep readers coming back.
+               Explore how blockchain technology is revolutionizing transparency, security, and decentralization across industries. Discover why businesses, developers, and everyday users are embracing this trustless system to build a reliable digital future.
               </p>
               <div className="mt-auto flex justify-between items-center">
                 <span className="text-xs text-muted-foreground">5 min read</span>
+                <Link href="/articles/cmbgq0s6h00013d786vjaot0g">
                 <Button variant="ghost" size="sm" className="text-primary">
                   Read more
                 </Button>
+                </Link>
               </div>
             </div>
           </motion.div>
