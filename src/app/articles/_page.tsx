@@ -36,7 +36,7 @@ const page: React.FC<SearchPageProps> = async ({ searchParams }) => {
             All Articles
           </h1>
           {/* Search Bar */}
-          <Suspense>
+          <Suspense fallback={<h1>Loading...</h1>}>
             <ArticleSearchInput />
           </Suspense>
         </div>

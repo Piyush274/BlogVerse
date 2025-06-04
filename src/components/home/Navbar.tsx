@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Menu, X, PenTool, Sparkles } from "lucide-react";
@@ -48,7 +48,10 @@ export function Navbar() {
         {/* Right side - User controls */}
         <div className="flex items-center gap-2">
           <div className="hidden md:block">
-            <SearchInput />
+                      <Suspense fallback={<h1>Loading...</h1>}>
+                        <SearchInput />
+                      </Suspense>
+            
           </div>
           
           <Link href="/dashboard">
