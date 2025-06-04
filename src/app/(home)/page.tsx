@@ -5,6 +5,7 @@ import { TopArticles } from '@/components/topArticles/TopArticles'
 import { Button } from '@/components/ui/button'
 import React, { Suspense } from 'react'
 import Link from 'next/link'
+import { PricingSection } from '@/components/payment/PricingSection'
 
 
 export default function page() {
@@ -39,6 +40,7 @@ export default function page() {
           </div>
         </div>
       </section>
+      <PricingSection/>
       <Footer/>
     </div>
   )
