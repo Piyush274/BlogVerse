@@ -1,7 +1,5 @@
 # 🚀 BlogVerse – Full-Stack SaaS Blogging Platform
 
-[Live Demo 🔗](https://blogverse-nu.vercel.app/) 
-
 **Live Demo → [https://blogverse-nu.vercel.app](https://blogverse-nu.vercel.app)**
 
 **BlogVerse** is a modern, full-stack SaaS blog application built with Next.js. It allows users to seamlessly create, manage, and engage with blog content through a clean and responsive UI. With integrated **Stripe** payments and multi-plan support (Starter, Pro, Enterprise), it's ideal for writers, teams, and publishers aiming for scalability and performance.
@@ -75,7 +73,7 @@ All plans are integrated using **Stripe Checkout** for secure transactions.
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/blogverse.git
+git clone https://github.com/Piyush274/BlogVerse
 cd blogverse
 
 # 2. Install dependencies
