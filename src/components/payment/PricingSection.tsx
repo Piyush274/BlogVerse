@@ -25,7 +25,6 @@ const pricingPlans = [
     description: "Perfect for beginners",
     features: [
       "Access to basic articles",
-      "3 premium articles/month",
       "Community access",
       "Weekly newsletter",
     ],

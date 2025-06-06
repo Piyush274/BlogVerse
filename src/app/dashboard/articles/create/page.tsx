@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { createArticle } from "@/actions/createArticle";
 import Link from "next/link";
+import { toast } from "sonner";
 
 //Only when the page is rendered in the browser, not on the server(server side rendering is false) else crashes
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
@@ -36,6 +37,13 @@ export default function page()
       action(formData);
     });
   };
+
+
+  //Create Article feature is disable to prevent spam or unwanted data in my database
+  const handleOnlyPro = (event: React.MouseEvent<HTMLButtonElement>) => {
+     event.preventDefault();
+     toast.error("Only for BlogVerse Paid Users. Buy a Plan to create a new article")
+  }
  
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -128,8 +136,11 @@ export default function page()
                 Cancel
               </Button>
               </Link>
-              <Button disabled={isPending} type="submit">
+              {/* <Button disabled={isPending} type="submit">
                 {isPending ? "Loading..." : "Publish Article"}
+              </Button> */}
+              <Button type="button" onClick={handleOnlyPro}>
+                Publish Article
               </Button>
             </div>
           </form>
