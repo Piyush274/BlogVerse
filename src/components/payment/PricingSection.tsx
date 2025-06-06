@@ -9,7 +9,14 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { loadStripe } from '@stripe/stripe-js';
+import { createCheckoutSession } from "@/actions/stripe-actions";
+import { useState } from "react";
+import { toast } from "sonner";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const pricingPlans = [
   {
@@ -23,6 +30,7 @@ const pricingPlans = [
       "Weekly newsletter",
     ],
     highlight: false,
+    action: "free",
   },
   {
     level: "Pro",
@@ -36,6 +44,8 @@ const pricingPlans = [
       "Personalized recommendations",
     ],
     highlight: true,
+    action: "pro",
+    priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID! // Add to your .env
   },
   {
     level: "Enterprise",
@@ -51,10 +61,57 @@ const pricingPlans = [
     ],
     highlight: false,
     dark: true,
+    action: "enterprise",
+    priceId: process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PRICE_ID! // Add to your .env
   },
 ];
 
 export function PricingSection() {
+  const router = useRouter();
+  const [loading, setLoading] = useState<string | null>(null);
+
+  const handlePlanSelect = async (plan: typeof pricingPlans[0]) => {
+    if (plan.action === "free") {
+      router.push("/dashboard/articles/create");
+      return;
+    }
+
+    setLoading(plan.level);
+    
+    try {
+      // Create Stripe checkout session
+      const sessionId = await createCheckoutSession(plan.priceId!);
+      
+      if (!sessionId) {
+        throw new Error("Failed to create checkout session");
+      }
+
+      const stripe = await stripePromise;
+      
+      if (!stripe) {
+        throw new Error("Stripe failed to initialize");
+      }
+
+      // Redirect to Stripe checkout
+      const { error } = await stripe.redirectToCheckout({ 
+        sessionId 
+      });
+      
+      if (error) {
+        toast.error("Payment failed", {
+          description: error.message || "An error occurred during payment processing"
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Payment failed", {
+        description: error instanceof Error ? error.message : "An unexpected error occurred"
+      });
+    } finally {
+      setLoading(null);
+    }
+  };
+
   return (
     <section className="py-16 px-4 max-w-7xl mx-auto">
       <div className="text-center mb-12">
@@ -70,6 +127,7 @@ export function PricingSection() {
         {pricingPlans.map((plan) => {
           const isPro = plan.level === "Pro";
           const isEnterprise = plan.level === "Enterprise";
+          const isLoading = loading === plan.level;
 
           return (
             <Card
@@ -106,8 +164,17 @@ export function PricingSection() {
                   className={`w-full ${
                     isEnterprise ? "text-black bg-white hover:bg-white/90" : ""
                   }`}
+                  onClick={() => handlePlanSelect(plan)}
+                  disabled={!!loading}
                 >
-                  Get started with {plan.level}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    `Get started with ${plan.level}`
+                  )}
                 </Button>
               </CardFooter>
             </Card>
