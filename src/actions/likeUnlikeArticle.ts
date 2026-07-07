@@ -3,17 +3,14 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { syncUser } from "@/lib/syncUser";
 
 export async function likeUnlikeArticle(articleId : string) {
   const { userId } = await auth(); // Clerk's user ID
   if (!userId) throw new Error("You must be logged in to like an article");
-  
 
-
-  // Ensure the user exists in the database
-  const user = await prisma.user.findUnique({
-    where: { clerkUserId: userId },
-  });
+  // Ensure the user exists in the database by syncing
+  const user = await syncUser();
 
   if (!user) {
     throw new Error("User does not exist in the database.");
@@ -36,6 +33,6 @@ export async function likeUnlikeArticle(articleId : string) {
     });
   }
 
-  // Return updated like count
-  revalidatePath(`/article/${articleId}`)
+  // Return updated like count and revalidate correct path
+  revalidatePath(`/articles/${articleId}`);
 }

@@ -7,6 +7,8 @@ import CommentList from "./CommentList";
 import { prisma } from "@/lib/prisma"; 
 import LikeUnlikeButton from "./LikeUnlikeButton";
 import { auth } from "@clerk/nextjs/server";
+import DOMPurify from "isomorphic-dompurify";
+
 
 type ArticleDetailPageProps = {
   article: Prisma.ArticlesGetPayload<{
@@ -83,7 +85,7 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           {/* Article Content */}
           <section
             className="prose prose-lg dark:prose-invert max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
           />
 
           {/* Article Actions */}

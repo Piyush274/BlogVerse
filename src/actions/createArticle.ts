@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { revalidatePath } from "next/cache";
+import { syncUser } from "@/lib/syncUser";
+
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -61,15 +63,13 @@ export const createArticle = async (prevState: CreateArticleFormState,formData: 
   }
 
   
-  const existingUser = await prisma.user.findUnique({
-    where: { clerkUserId: userId },
-  });
-
+  // Auto-sync user with Prisma DB
+  const existingUser = await syncUser();
 
   if (!existingUser) {
     return {
       errors: {
-        formErrors: ["User not found. Please register before creating an article."],
+        formErrors: ["User sync failed. Please try logging in again."],
       },
     };
   }
