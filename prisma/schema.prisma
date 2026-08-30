@@ -8,16 +8,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PlanTier {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
 model User {
-  id          String     @id @default(cuid())
-  clerkUserId String     @unique
-  email       String     @unique
-  name        String
-  imageUrl    String?
-  role        String?
-  articles    Articles[]
-  comments    Comment[]
-  likes       Like[] // A user can like multiple articles
+  id                  String     @id @default(cuid())
+  clerkUserId         String     @unique
+  email               String     @unique
+  name                String
+  imageUrl            String?
+  role                String?
+  articles            Articles[]
+  comments            Comment[]
+  likes               Like[] // A user can like multiple articles
+  plan                PlanTier   @default(FREE)
+  monthlyAiUsageCount Int        @default(0)
 }
 
 model Articles {
