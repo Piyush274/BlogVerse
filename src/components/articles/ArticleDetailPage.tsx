@@ -8,7 +8,6 @@ import { prisma } from "@/lib/prisma";
 import LikeUnlikeButton from "./LikeUnlikeButton";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import Image from "next/image";
 
 type ArticleDetailPageProps = {
   article: Prisma.ArticlesGetPayload<{
@@ -25,26 +24,36 @@ type ArticleDetailPageProps = {
 };
 
 export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
-  const comments = await prisma.comment.findMany({
-    where: {
-      articleId: article.id,
-    },
-    include: {
-      author: {
-        select: {
-          name: true,
-          email: true,
-          imageUrl: true,
+  let comments: any[] = [];
+  try {
+    comments = await prisma.comment.findMany({
+      where: {
+        articleId: article.id,
+      },
+      include: {
+        author: {
+          select: {
+            name: true,
+            email: true,
+            imageUrl: true,
+          },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch (err) {
+    console.error("Failed to load comments:", err);
+  }
 
-  const likes = await prisma.like.findMany({ where: { articleId: article.id } });
-  
+  let likes: any[] = [];
+  try {
+    likes = await prisma.like.findMany({ where: { articleId: article.id } });
+  } catch (err) {
+    console.error("Failed to load likes:", err);
+  }
+
   let isLiked = false;
   try {
     const { userId } = await auth();
@@ -57,9 +66,13 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
   }
 
   // Dynamic reading time calculation
-  const plainText = article.content.replace(/<[^>]*>/g, "");
+  const plainText = (article.content || "").replace(/<[^>]*>/g, "");
   const wordCount = plainText.split(/\s+/).filter(Boolean).length;
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  const authorName = article.author?.name || "Author";
+  const authorInitial = authorName.charAt(0) || "A";
+  const hasFeaturedImage = !!(article.featuredImage && article.featuredImage.trim().length > 0);
 
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
@@ -81,7 +94,7 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
 
           <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 border border-primary/20 px-3.5 py-1 text-xs font-semibold text-primary backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            {article.category}
+            {article.category || "General"}
           </span>
         </div>
 
@@ -95,15 +108,15 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-border/60">
             <div className="flex items-center gap-3.5">
               <Avatar className="h-12 w-12 ring-2 ring-primary/20 ring-offset-2 ring-offset-background">
-                <AvatarImage src={article.author.imageUrl as string} alt={article.author.name} />
+                <AvatarImage src={article.author?.imageUrl as string} alt={authorName} />
                 <AvatarFallback className="bg-gradient-to-tr from-primary/20 to-purple-600/20 text-primary font-bold">
-                  {article.author.name?.charAt(0) || "U"}
+                  {authorInitial}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <div className="flex items-center gap-2">
                   <p className="font-semibold text-foreground text-sm sm:text-base">
-                    {article.author.name}
+                    {authorName}
                   </p>
                   <span className="text-[10px] uppercase font-bold tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
                     Author
@@ -139,14 +152,14 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         </header>
 
         {/* Featured Image (If available) */}
-        {article.featuredImage && (
+        {hasFeaturedImage && (
           <div className="relative mb-12 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border/70 shadow-2xl bg-muted/30">
-            <Image
-              src={article.featuredImage as string}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={article.featuredImage}
               alt={article.title}
-              fill
-              priority
-              className="object-cover transition-transform duration-500 hover:scale-[1.02]"
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent pointer-events-none" />
           </div>
@@ -156,7 +169,7 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         <article className="mb-12">
           <div
             className="article-prose"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: article.content || "" }}
           />
         </article>
 
@@ -166,14 +179,14 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         {/* Author Bio Footer Box */}
         <div className="p-6 my-10 rounded-2xl bg-card/50 backdrop-blur-md border border-border/60 shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <Avatar className="h-16 w-16 ring-2 ring-primary/20 shrink-0">
-            <AvatarImage src={article.author.imageUrl as string} alt={article.author.name} />
+            <AvatarImage src={article.author?.imageUrl as string} alt={authorName} />
             <AvatarFallback className="bg-primary/10 text-primary font-bold text-lg">
-              {article.author.name?.charAt(0) || "U"}
+              {authorInitial}
             </AvatarFallback>
           </Avatar>
           <div className="space-y-1 flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-foreground text-lg">{article.author.name}</h3>
+              <h3 className="font-semibold text-foreground text-lg">{authorName}</h3>
               <UserCheck className="h-4 w-4 text-primary" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
