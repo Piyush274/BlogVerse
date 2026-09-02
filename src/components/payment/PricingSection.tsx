@@ -15,6 +15,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { createCheckoutSession } from "@/actions/stripe-actions";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -67,11 +68,19 @@ const pricingPlans = [
 
 export function PricingSection() {
   const router = useRouter();
+  const { isSignedIn } = useUser();
+  const { openSignIn } = useClerk();
   const [loading, setLoading] = useState<string | null>(null);
 
   const handlePlanSelect = async (plan: typeof pricingPlans[0]) => {
     if (plan.action === "free") {
       router.push("/dashboard/articles/create");
+      return;
+    }
+
+    if (!isSignedIn) {
+      toast.info("Please sign in or create an account to upgrade your plan.");
+      openSignIn();
       return;
     }
 

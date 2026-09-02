@@ -4,6 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { syncUser } from "@/lib/syncUser";
+
 const createCommentSchema = z.object({
     body: z.string().min(1)
 });
@@ -32,13 +34,11 @@ export const createComments = async (articleId:string, prevState: CreateCommentF
             }
         }
     }
-    const existingUser = await prisma.user.findUnique({
-        where:{clerkUserId:userId}
-    });
+    const existingUser = await syncUser();
     if (!existingUser) {
         return {
           errors: {
-            formErrors: ["User not found. Please register before adding comment."],
+            formErrors: ["User sync failed. Please try logging in again."],
           },
         };
       }
