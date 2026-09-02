@@ -1,87 +1,112 @@
-# 🚀 BlogVerse – Full-Stack SaaS Blogging Platform
+# 🚀 BlogVerse – MERN Stack Full-Stack Blogging Platform
 
-**Live Demo → [https://blogverse-nu.vercel.app](https://blogverse-nu.vercel.app)**
+**BlogVerse** is a modern, high-performance, full-stack blogging platform built on the **MERN Stack** (**MongoDB**, **Express.js**, **React 19 with Vite**, and **Node.js**) organized as a clean monorepo (`/frontend` and `/backend`).
 
-**BlogVerse** is a modern, full-stack SaaS blog application built with Next.js. It allows users to seamlessly create, manage, and engage with blog content through a clean and responsive UI. With integrated **Stripe** payments and multi-plan support (Starter, Pro, Enterprise), it's ideal for writers, teams, and publishers aiming for scalability and performance.
+It features native **JWT + bcryptjs** user authentication, **Google OAuth** login, media uploads via **Cloudinary**, rich-text creation via **ReactQuill**, dynamic analytics, commenting & liking systems, and SaaS subscription billing via **Stripe**.
 
 ---
 
 ## 🧩 Tech Stack
 
-- **Frontend:** Next.js (App Router)
-- **Backend:** Next.js 
-- **Database:** NeonDB (PostgreSQL) + Prisma ORM
-- **Authentication:** Clerk
-- **Payment Integration:** Stripe
-- **Deployment:** Vercel
+### Frontend (`/frontend`)
+- **Framework:** React 19 + Vite (TypeScript SPA)
+- **Routing:** React Router v7
+- **Styling:** Tailwind CSS v4 + Radix UI Primitives + Lucide Icons
+- **Theme:** Custom Dark / Light / System Mode Provider
+- **Rich Text Editor:** ReactQuill
+- **OAuth Client:** `@react-oauth/google`
+
+### Backend (`/backend`)
+- **Runtime & Server:** Node.js + Express.js (TypeScript)
+- **Database & ODM:** MongoDB + Mongoose
+- **Auth & Security:** JWT (`jsonwebtoken`), `bcryptjs`, `google-auth-library`, `cookie-parser`, Helmet, CORS, Morgan
+- **File Storage:** Cloudinary (via Multer memory stream)
+- **Payments:** Stripe Checkout & Webhook Handling
+- **Validation:** Zod
 
 ---
 
-## ⚙️ Features
+## 📁 Repository Structure
 
-- ✅ **User Authentication** – Sign up, Login, Logout via Clerk
-- ✍️ **Create/Edit/Delete Blog Posts**
-- 💬 **Commenting System** – Interact with articles
-- ❤️ **Like Functionality**
-- 🖊️ **Rich Text Editing** – Powered by `react-quill`
-- 🧠 **Tag-Based Filtering**
-- 🔍 **Search Functionality**
-- 📈 **Admin Dashboard** – Track article count, comments, and analytics
-- 🔄 **Pagination** – Optimized content loading
-- 📱 **Mobile Responsive** – Modern, professional UI across devices
-- 💳 **Stripe Payments** – SaaS Plan support: Starter, Pro, Enterprise
-
----
-
-## 💡 SaaS Plans
-
-Users can choose from three scalable plans:
-- **Starter** – Basic features for beginners
-- **Pro** – Extended capabilities for professionals
-- **Enterprise** – Advanced tools for organizations
-
-All plans are integrated using **Stripe Checkout** for secure transactions.
-
----
-
-## 📦 Third-Party Libraries & Tools
-
-- `stripe` – Payment processing
-- `react-quill` – Rich text editor
-- `@clerk/nextjs` – Authentication and user management
-- `prisma` – Type-safe ORM for PostgreSQL
+```
+BlogVerse/
+├── frontend/            # React 19 + Vite Frontend SPA
+│   ├── src/
+│   │   ├── api/         # Axios API clients with Bearer token interceptor
+│   │   ├── components/  # Reusable UI components (Navbar, Hero, Articles, Dashboard)
+│   │   ├── context/     # AuthContext & ThemeContext (Dark/Light/System)
+│   │   ├── pages/       # SPA Routes (Home, Articles, Detail, Dashboard, SignIn, SignUp)
+│   │   ├── App.tsx      # React Router route definitions
+│   │   └── main.tsx     # Application entry point with GoogleOAuthProvider
+│   ├── package.json
+│   └── .env.example
+│
+├── backend/             # Express + Node.js REST API Server
+│   ├── src/
+│   │   ├── config/      # MongoDB connection, Cloudinary & Stripe setup
+│   │   ├── models/      # Mongoose Models (User, Article, Comment, Like)
+│   │   ├── middleware/  # JWT Auth & Multer upload middleware
+│   │   ├── controllers/ # Business logic handlers (auth, article, comment, like, dashboard, payment)
+│   │   ├── routes/      # REST API route definitions
+│   │   └── server.ts    # Express initialization & listener
+│   ├── package.json
+│   └── .env.example
+│
+├── package.json         # Root monorepo scripts (concurrently)
+└── .env.example         # Consolidated environment template
+```
 
 ---
 
-## 📸 Screenshots 
+## 🛠️ Getting Started
 
-![alt text](image-1.png)
- ![alt text](image.png)
-
----
-
-## 🧠 Learning Highlights
-
-- Implemented full-fledged SaaS features with secure billing
-- Learned to use Prisma with NeonDB for fast cloud PostgreSQL access
-- Integrated Clerk for seamless auth and user experience
-- Developed a modular, scalable full-stack application using modern Next.js architecture
-
----
-
-## 🛠️ Setup Instructions
-
+### 1. Clone the repository
 ```bash
-# 1. Clone the repo
 git clone https://github.com/Piyush274/BlogVerse
-cd blogverse
+cd BlogVerse
+```
 
-# 2. Install dependencies
-npm install
+### 2. Install dependencies
+```bash
+npm run install:all
+```
 
-# 3. Set up environment variables (Stripe, Clerk, DB URL, etc.)
-.env.local
+### 3. Setup Environment Variables
 
-# 4. Run the development server
+- Create `backend/.env` (see `backend/.env.example`):
+  ```env
+  PORT=5000
+  CLIENT_URL=http://localhost:5173
+  MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/blogverse?retryWrites=true&w=majority
+  JWT_SECRET=your_jwt_secret_key_here
+  JWT_EXPIRES_IN=7d
+  GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+  CLOUDINARY_CLOUD_NAME=your_cloud_name
+  CLOUDINARY_API_KEY=your_api_key
+  CLOUDINARY_API_SECRET=your_api_secret
+  STRIPE_SECRET_KEY=sk_test_...
+  ```
+
+- Create `frontend/.env` (see `frontend/.env.example`):
+  ```env
+  VITE_API_URL=/api
+  VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+  VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+  VITE_STRIPE_PRO_PRICE_ID=price_...
+  VITE_STRIPE_ENTERPRISE_PRICE_ID=price_...
+  ```
+
+### 4. Run Development Servers
+```bash
+# Run both Backend (port 5000) and Frontend (port 5173) simultaneously:
 npm run dev
 
+# Or run them separately:
+npm run dev:backend   # Express server (http://localhost:5000)
+npm run dev:frontend  # Vite client (http://localhost:5173)
+```
+
+### 5. Build for Production
+```bash
+npm run build
+```
