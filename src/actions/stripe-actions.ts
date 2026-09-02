@@ -3,12 +3,16 @@
 import Stripe from 'stripe';
 import { auth, currentUser } from '@clerk/nextjs/server';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil',
-});
-
 export async function createCheckoutSession(priceId: string) {
   try {
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey) {
+      throw new Error("STRIPE_SECRET_KEY is not configured.");
+    }
+
+    const stripe = new Stripe(stripeKey, {
+      apiVersion: '2025-05-28.basil' as any,
+    });
     const { userId } = await auth();
     if (!userId) {
       throw new Error("You must be logged in to subscribe to a plan.");

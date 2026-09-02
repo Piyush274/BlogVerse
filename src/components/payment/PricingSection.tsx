@@ -17,7 +17,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useUser, useClerk } from "@clerk/nextjs";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const getStripe = () => {
+  const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  if (!key) return null;
+  return loadStripe(key);
+};
 
 const pricingPlans = [
   {
@@ -94,10 +98,10 @@ export function PricingSection() {
         throw new Error("Failed to create checkout session");
       }
 
-      const stripe = await stripePromise;
+      const stripe = await getStripe();
       
       if (!stripe) {
-        throw new Error("Stripe failed to initialize");
+        throw new Error("Stripe failed to initialize. Please check your publishable key.");
       }
 
       // Redirect to Stripe checkout
