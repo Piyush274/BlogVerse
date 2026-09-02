@@ -174,7 +174,7 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         </article>
 
         {/* Engagement Actions Bar */}
-        <LikeUnlikeButton articleId={article.id} likes={likes} isLiked={isLiked} />
+        <LikeUnlikeButton articleId={article.id} initialLikes={likes.length} isLiked={isLiked} />
 
         {/* Author Bio Footer Box */}
         <div className="p-6 my-10 rounded-2xl bg-card/50 backdrop-blur-md border border-border/60 shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-5">

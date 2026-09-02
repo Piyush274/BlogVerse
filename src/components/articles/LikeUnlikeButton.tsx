@@ -9,17 +9,20 @@ import { toast } from "sonner";
 
 type LikeButtonProps = {
   articleId: string;
-  likes: Like[];
+  initialLikes?: number;
+  likes?: any[];
   isLiked: boolean;
 };
 
 const LikeUnlikeButton: React.FC<LikeButtonProps> = ({
   articleId,
+  initialLikes,
   likes,
   isLiked: initialIsLiked,
 }) => {
+  const countValue = initialLikes !== undefined ? initialLikes : (likes?.length || 0);
   const [optimisticState, setOptimisticState] = useOptimistic(
-    { count: likes.length, liked: initialIsLiked },
+    { count: countValue, liked: initialIsLiked },
     (state) => ({
       count: state.liked ? state.count - 1 : state.count + 1,
       liked: !state.liked,
