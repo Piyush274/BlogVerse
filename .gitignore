@@ -42,3 +42,6 @@ next-env.d.ts
 
 # update folder
 /Update/
+
+# clerk configuration (can include secrets)
+/.clerk/

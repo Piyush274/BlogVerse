@@ -38,15 +38,15 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
           className="flex gap-3 sm:gap-4 p-4 rounded-xl bg-card/40 border border-border/50 hover:border-border transition-colors"
         >
           <Avatar className="h-9 w-9 sm:h-10 sm:w-10 ring-1 ring-primary/20 shrink-0 mt-0.5">
-            <AvatarImage src={comment.author.imageUrl as string} alt={comment.author.name} />
+            <AvatarImage src={comment.author?.imageUrl as string} alt={comment.author?.name || "User"} />
             <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">
-              {comment.author.name?.charAt(0) || "U"}
+              {comment.author?.name?.charAt(0) || "U"}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-1 mb-1.5">
               <span className="font-semibold text-foreground text-sm truncate">
-                {comment.author.name}
+                {comment.author?.name || "Anonymous"}
               </span>
               <span className="text-xs text-muted-foreground">
                 {new Date(comment.createdAt).toLocaleDateString("en-US", {

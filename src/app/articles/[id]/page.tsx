@@ -2,6 +2,8 @@ import { ArticleDetailPage } from "@/components/articles/ArticleDetailPage";
 import { prisma } from "@/lib/prisma";
 import React from "react";
 
+export const dynamic = 'force-dynamic';
+
 type ArticleDetailPageProps = {
   params: Promise<{ id: string }>;
 };

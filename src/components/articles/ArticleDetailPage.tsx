@@ -44,12 +44,17 @@ export async function ArticleDetailPage({ article }: ArticleDetailPageProps) {
   });
 
   const likes = await prisma.like.findMany({ where: { articleId: article.id } });
-  const { userId } = await auth();
-  const user = userId
-    ? await prisma.user.findUnique({ where: { clerkUserId: userId } })
-    : null;
-
-  const isLiked = likes.some((like) => like.userId === user?.id);
+  
+  let isLiked = false;
+  try {
+    const { userId } = await auth();
+    if (userId) {
+      const user = await prisma.user.findUnique({ where: { clerkUserId: userId } });
+      isLiked = user ? likes.some((like) => like.userId === user.id) : false;
+    }
+  } catch (err) {
+    // Unauthenticated request
+  }
 
   // Dynamic reading time calculation
   const plainText = article.content.replace(/<[^>]*>/g, "");
