@@ -172,6 +172,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -197,8 +205,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id          String     @id @default(cuid())\n  clerkUserId String     @unique\n  email       String     @unique\n  name        String\n  imageUrl    String?\n  role        String?\n  articles    Articles[]\n  comments    Comment[]\n  likes       Like[] // A user can like multiple articles\n}\n\nmodel Articles {\n  id            String    @id @default(cuid())\n  title         String\n  content       String\n  category      String\n  featuredImage String\n  author        User      @relation(fields: [authorId], references: [id])\n  authorId      String\n  comments      Comment[]\n  likes         Like[] // An article can have multiple likes\n  createdAt     DateTime  @default(now())\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  body      String\n  articleId String\n  article   Articles @relation(fields: [articleId], references: [id], onDelete: Cascade)\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id])\n  createdAt DateTime @default(now())\n}\n\nmodel Like {\n  id        String   @id @default(cuid())\n  isLiked   Boolean  @default(false)\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  article   Articles @relation(fields: [articleId], references: [id], onDelete: Cascade)\n  articleId String\n  createdAt DateTime @default(now())\n\n  @@unique([userId, articleId]) // Ensures a user can like an article only once\n}\n",
-  "inlineSchemaHash": "56b189466ae42e08f279d0583c2f4b6720dbdf1510237cb35692c0aebb2530c3",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id          String     @id @default(cuid())\n  clerkUserId String     @unique\n  email       String     @unique\n  name        String\n  imageUrl    String?\n  role        String?\n  articles    Articles[]\n  comments    Comment[]\n  likes       Like[] // A user can like multiple articles\n}\n\nmodel Articles {\n  id            String    @id @default(cuid())\n  title         String\n  content       String\n  category      String\n  featuredImage String\n  author        User      @relation(fields: [authorId], references: [id])\n  authorId      String\n  comments      Comment[]\n  likes         Like[] // An article can have multiple likes\n  createdAt     DateTime  @default(now())\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  body      String\n  articleId String\n  article   Articles @relation(fields: [articleId], references: [id], onDelete: Cascade)\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id])\n  createdAt DateTime @default(now())\n}\n\nmodel Like {\n  id        String   @id @default(cuid())\n  isLiked   Boolean  @default(false)\n  user      User     @relation(fields: [userId], references: [id])\n  userId    String\n  article   Articles @relation(fields: [articleId], references: [id], onDelete: Cascade)\n  articleId String\n  createdAt DateTime @default(now())\n\n  @@unique([userId, articleId]) // Ensures a user can like an article only once\n}\n",
+  "inlineSchemaHash": "3dcd5e64d74e88ceb07e563b695f361d97c293cb7ba44f20150ed82c0c13f033",
   "copyEngine": true
 }
 
@@ -239,6 +247,14 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-rhel-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-rhel-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
