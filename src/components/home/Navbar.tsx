@@ -54,15 +54,17 @@ export function Navbar() {
             
           </div>
           
-          <Link href="/dashboard">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="hidden sm:flex text-sm font-medium hover:bg-accent/90"
-            >
-              Dashboard
-            </Button>
-          </Link>
+          <SignedIn>
+            <Link href="/dashboard" prefetch={false}>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hidden sm:flex text-sm font-medium hover:bg-accent/90"
+              >
+                Dashboard
+              </Button>
+            </Link>
+          </SignedIn>
 
           <ModeToggle />
           
@@ -133,13 +135,16 @@ export function Navbar() {
               >
                 About
               </Link>
-              <Link
-                href="/dashboard"
-                className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
+              <SignedIn>
+                <Link
+                  href="/dashboard"
+                  prefetch={false}
+                  className="block px-3 py-2 text-base font-medium rounded-md hover:bg-accent"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+              </SignedIn>
             </div>
 
             {/* Mobile Auth Buttons */}

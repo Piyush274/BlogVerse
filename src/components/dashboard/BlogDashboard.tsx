@@ -10,10 +10,24 @@ export async function BlogDashboard()
 {
   const user = await syncUser();
 
+  if (!user) {
+    return (
+      <main className="flex-1 p-4 md:p-8 flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center">
+        <h2 className="text-2xl font-bold">Authentication Required</h2>
+        <p className="text-muted-foreground max-w-md">
+          Please sign in to view and manage your articles, comments, and dashboard analytics.
+        </p>
+        <Link href="/sign-in">
+          <Button>Sign In to Continue</Button>
+        </Link>
+      </main>
+    );
+  }
+
   // Fetch current user's articles and total comments
   const [userWithArticles, totalComments] = await Promise.all([
     prisma.user.findUnique({
-      where: { clerkUserId: user?.clerkUserId },
+      where: { clerkUserId: user.clerkUserId },
       include: {
         articles: {
           orderBy: { createdAt: 'desc' },

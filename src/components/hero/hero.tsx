@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import { UserPen } from 'lucide-react';
 
+import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
+
 export default function Hero() {
   const words = [
     { text: "Write" },
@@ -36,29 +38,52 @@ export default function Hero() {
             and join a community of passionate creators.
           </p>
 
-          <div className="mt-10 flex items-center gap-x-6">
-
-
-              <Link href="/dashboard/articles/create">
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <SignedIn>
+              <Link href="/dashboard/articles/create" prefetch={false}>
                 <Button
                   size="lg"
                   className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
                 >
-                  Get started
+                  Create Article
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
 
-              <Link href="/dashboard">
+              <Link href="/dashboard" prefetch={false}>
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
+                  variant="outline"
+                  className="group"
                 >
                   Go to Dashboard
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
+            </SignedIn>
 
+            <SignedOut>
+              <SignUpButton>
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 group"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </SignUpButton>
+
+              <Link href="/articles">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="group"
+                >
+                  Explore Articles
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </SignedOut>
           </div>
 
           <div className="mt-10 flex items-center gap-x-4">
