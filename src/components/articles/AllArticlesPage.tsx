@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"; 
 import { Search } from "lucide-react";
 import Image from "next/image";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 

@@ -1,4 +1,4 @@
-import type { Prisma } from "@/generated/prisma";
+import type { Prisma } from "@prisma/client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { MessageSquareDashed } from "lucide-react";

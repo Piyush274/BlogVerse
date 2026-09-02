@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { MessageCircle, ArrowLeft, Calendar, Clock, Sparkles, UserCheck, BookOpen } from "lucide-react";
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@prisma/client";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import { prisma } from "@/lib/prisma";

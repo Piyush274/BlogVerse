@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { updateArticle } from "@/actions/updateArticle";
 import Image from "next/image";
-import type {Articles} from "@/generated/prisma"
+import type { Articles } from "@prisma/client";
 
 type EditArticlePageProps = {  //Get types from prisma (which is generated from the database schema)
   article: Articles;
