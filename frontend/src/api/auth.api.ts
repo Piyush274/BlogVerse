@@ -27,11 +27,6 @@ export async function loginUser(data: LoginData): Promise<AuthResponse> {
   return response.data;
 }
 
-export async function googleAuthUser(credential: string): Promise<AuthResponse> {
-  const response = await apiClient.post<AuthResponse>("/auth/google", { credential });
-  return response.data;
-}
-
 export async function getMeUser(): Promise<Author> {
   const response = await apiClient.get<Author>("/auth/me");
   return response.data;

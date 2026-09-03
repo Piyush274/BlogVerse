@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +11,7 @@ import { PenTool, Lock, Mail, User, Loader2, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
 export default function SignUpPage() {
-  const { register, loginWithGoogle } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -47,17 +46,6 @@ export default function SignUpPage() {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse: any) => {
-    if (credentialResponse.credential) {
-      try {
-        await loginWithGoogle(credentialResponse.credential);
-        navigate("/dashboard", { replace: true });
-      } catch (err: any) {
-        toast.error(err.message || "Google registration failed.");
-      }
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col justify-between bg-background">
       <Navbar />
@@ -75,30 +63,6 @@ export default function SignUpPage() {
             </CardHeader>
 
             <CardContent className="space-y-5">
-              {/* Google OAuth Button */}
-              <div className="flex justify-center w-full">
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={() => toast.error("Google authentication failed.")}
-                  shape="rectangular"
-                  size="large"
-                  theme="outline"
-                  text="signup_with"
-                  width="100%"
-                />
-              </div>
-
-              <div className="relative my-4">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-border" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-3 text-muted-foreground font-medium">
-                    Or sign up with email
-                  </span>
-                </div>
-              </div>
-
               {error && (
                 <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm font-medium animate-in fade-in-50">
                   {error}

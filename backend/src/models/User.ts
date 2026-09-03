@@ -5,7 +5,6 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
-  googleId?: string;
   imageUrl?: string;
   role: "AUTHOR" | "ADMIN" | "USER";
   createdAt: Date;
@@ -32,14 +31,9 @@ const userSchema = new Schema<IUser>(
     },
     password: {
       type: String,
+      required: [true, "Password is required"],
       minlength: 6,
       select: false, // Do not include in queries by default
-    },
-    googleId: {
-      type: String,
-      unique: true,
-      sparse: true,
-      index: true,
     },
     imageUrl: {
       type: String,

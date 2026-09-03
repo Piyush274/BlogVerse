@@ -3,7 +3,6 @@ import { Author } from "@/api/articles.api";
 import {
   loginUser,
   registerUser,
-  googleAuthUser,
   getMeUser,
   LoginData,
   RegisterData,
@@ -16,7 +15,6 @@ interface AuthContextType {
   isLoading: boolean;
   login: (data: LoginData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
-  loginWithGoogle: (credential: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -72,14 +70,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     toast.success(`Welcome to BlogVerse, ${res.user.name}!`);
   };
 
-  const loginWithGoogle = async (credential: string) => {
-    const res = await googleAuthUser(credential);
-    localStorage.setItem("blogverse_token", res.token);
-    setToken(res.token);
-    setUser(res.user);
-    toast.success(`Signed in as ${res.user.name}!`);
-  };
-
   const logout = () => {
     localStorage.removeItem("blogverse_token");
     setToken(null);
@@ -95,7 +85,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading,
         login,
         register,
-        loginWithGoogle,
         logout,
       }}
     >

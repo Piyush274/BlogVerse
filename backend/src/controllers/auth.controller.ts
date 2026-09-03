@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import { OAuth2Client } from "google-auth-library";
 import { User } from "../models/User.js";
 import { generateToken } from "../utils/jwt.js";
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(70),
@@ -113,79 +110,6 @@ export async function login(req: Request, res: Response): Promise<void> {
   } catch (error: any) {
     console.error("[Login Error]:", error);
     res.status(500).json({ error: error.message || "Failed to log in." });
-  }
-}
-
-/**
- * POST /api/auth/google
- * Validates Google ID token and returns JWT token + user
- */
-export async function googleAuth(req: Request, res: Response): Promise<void> {
-  try {
-    const { credential } = req.body;
-
-    if (!credential) {
-      res.status(400).json({ error: "Google credential token is required." });
-      return;
-    }
-
-    let googlePayload: any = null;
-
-    try {
-      const ticket = await googleClient.verifyIdToken({
-        idToken: credential,
-        audience: process.env.GOOGLE_CLIENT_ID,
-      });
-      googlePayload = ticket.getPayload();
-    } catch (verifyErr) {
-      // Fallback: If verification fails due to audience mismatch in local dev, decode payload safely
-      console.warn("[Google Auth] verifyIdToken fallback:", verifyErr);
-      const parts = credential.split(".");
-      if (parts.length === 3) {
-        googlePayload = JSON.parse(Buffer.from(parts[1], "base64").toString("utf-8"));
-      }
-    }
-
-    if (!googlePayload || !googlePayload.email) {
-      res.status(400).json({ error: "Invalid Google credential token." });
-      return;
-    }
-
-    const { sub: googleId, email, name, picture } = googlePayload;
-
-    let user = await User.findOne({
-      $or: [{ googleId }, { email: email.toLowerCase() }],
-    });
-
-    if (user) {
-      // Update Google ID and avatar if missing
-      if (!user.googleId) user.googleId = googleId;
-      if (!user.imageUrl && picture) user.imageUrl = picture;
-      await user.save();
-    } else {
-      // Create new user from Google profile
-      user = await User.create({
-        name: name || "Google User",
-        email: email.toLowerCase(),
-        googleId,
-        imageUrl: picture || "",
-        role: "AUTHOR",
-      });
-    }
-
-    const token = generateToken({
-      id: user._id.toString(),
-      email: user.email,
-      role: user.role,
-    });
-
-    res.json({
-      token,
-      user,
-    });
-  } catch (error: any) {
-    console.error("[Google Auth Error]:", error);
-    res.status(500).json({ error: error.message || "Google authentication failed." });
   }
 }
 

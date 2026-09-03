@@ -2,7 +2,7 @@
 
 **BlogVerse** is a modern, high-performance, full-stack blogging platform built on the **MERN Stack** (**MongoDB**, **Express.js**, **React 19 with Vite**, and **Node.js**) organized as a clean monorepo (`/frontend` and `/backend`).
 
-It features native **JWT + bcryptjs** user authentication, **Google OAuth** login, media uploads via **Cloudinary**, rich-text creation via **ReactQuill**, dynamic analytics, commenting & liking systems, and SaaS subscription billing via **Stripe**.
+It features native **JWT + bcryptjs** user authentication, media uploads via **Cloudinary**, rich-text creation via **ReactQuill**, dynamic analytics, commenting & liking systems, and SaaS subscription billing via **Stripe**.
 
 ---
 
@@ -14,12 +14,11 @@ It features native **JWT + bcryptjs** user authentication, **Google OAuth** logi
 - **Styling:** Tailwind CSS v4 + Radix UI Primitives + Lucide Icons
 - **Theme:** Custom Dark / Light / System Mode Provider
 - **Rich Text Editor:** ReactQuill
-- **OAuth Client:** `@react-oauth/google`
 
 ### Backend (`/backend`)
 - **Runtime & Server:** Node.js + Express.js (TypeScript)
 - **Database & ODM:** MongoDB + Mongoose
-- **Auth & Security:** JWT (`jsonwebtoken`), `bcryptjs`, `google-auth-library`, `cookie-parser`, Helmet, CORS, Morgan
+- **Auth & Security:** JWT (`jsonwebtoken`), `bcryptjs`, `cookie-parser`, Helmet, CORS, Morgan
 - **File Storage:** Cloudinary (via Multer memory stream)
 - **Payments:** Stripe Checkout & Webhook Handling
 - **Validation:** Zod
@@ -37,7 +36,7 @@ BlogVerse/
 │   │   ├── context/     # AuthContext & ThemeContext (Dark/Light/System)
 │   │   ├── pages/       # SPA Routes (Home, Articles, Detail, Dashboard, SignIn, SignUp)
 │   │   ├── App.tsx      # React Router route definitions
-│   │   └── main.tsx     # Application entry point with GoogleOAuthProvider
+│   │   └── main.tsx     # Application entry point
 │   ├── package.json
 │   └── .env.example
 │
@@ -80,7 +79,6 @@ npm run install:all
   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/blogverse?retryWrites=true&w=majority
   JWT_SECRET=your_jwt_secret_key_here
   JWT_EXPIRES_IN=7d
-  GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
   CLOUDINARY_CLOUD_NAME=your_cloud_name
   CLOUDINARY_API_KEY=your_api_key
   CLOUDINARY_API_SECRET=your_api_secret
@@ -90,7 +88,6 @@ npm run install:all
 - Create `frontend/.env` (see `frontend/.env.example`):
   ```env
   VITE_API_URL=/api
-  VITE_GOOGLE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
   VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
   VITE_STRIPE_PRO_PRICE_ID=price_...
   VITE_STRIPE_ENTERPRISE_PRICE_ID=price_...
