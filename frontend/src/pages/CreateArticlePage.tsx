@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { marked } from "marked";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,17 +29,17 @@ export default function CreateArticlePage() {
     category: string;
   }) => {
     setTitle(draft.title);
-    // Convert markdown headings to basic HTML formatting for ReactQuill if needed
-    const htmlContent = draft.content
-      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
-      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
-      .replace(/^\- (.*$)/gim, "<li>$1</li>")
-      .replace(/\n\n/g, "<p><br/></p>");
-    setContent(htmlContent || draft.content);
+    try {
+      // Parse markdown (headings, bold, lists, code blocks) into rich HTML for ReactQuill
+      const htmlContent = marked.parse(draft.content, { async: false }) as string;
+      setContent(htmlContent);
+    } catch (e) {
+      setContent(draft.content);
+    }
     if (draft.category) {
       setCategory(draft.category);
     }
-    toast.success("AI draft successfully applied to editor!");
+    toast.success("AI draft successfully formatted and applied to editor!");
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -85,15 +86,22 @@ export default function CreateArticlePage() {
             </div>
 
             {/* AI Multi-Agent Editorial Trigger */}
-            <Button
+            <button
               type="button"
               onClick={() => setIsAiModalOpen(true)}
-              className="bg-gradient-to-r from-purple-600 via-indigo-600 to-primary hover:from-purple-500 hover:to-indigo-500 text-white shadow-lg shadow-purple-500/20 gap-2 self-start sm:self-auto border border-purple-400/30"
+              className="relative group overflow-hidden rounded-xl p-[1px] focus:outline-none focus:ring-2 focus:ring-purple-500/50 self-start sm:self-auto transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-purple-500/10"
             >
-              <Bot className="w-4 h-4 animate-bounce" />
-              <Sparkles className="w-4 h-4 text-purple-200" />
-              <span>AI Agent Editorial Team</span>
-            </Button>
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-600 via-indigo-500 to-purple-600 rounded-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+              <div className="relative px-4 py-2.5 rounded-[11px] bg-zinc-950 hover:bg-zinc-900 transition-colors flex items-center gap-2.5 text-white font-medium text-sm">
+                <div className="p-1 rounded-lg bg-purple-500/20 text-purple-300">
+                  <Sparkles className="w-4 h-4 text-purple-300 animate-pulse" />
+                </div>
+                <span className="font-semibold tracking-tight text-zinc-100">AI Agent Editorial Team</span>
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                  LangGraph
+                </span>
+              </div>
+            </button>
           </div>
 
           <AgentEditorialModal
