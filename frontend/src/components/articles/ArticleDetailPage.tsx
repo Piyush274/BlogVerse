@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { MessageCircle, ArrowLeft, Calendar, Clock, Sparkles, UserCheck, BookOpen } from "lucide-react";
+import { MessageCircle, ArrowLeft, Calendar, Clock, Sparkles, UserCheck, BookOpen, Bot, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import LikeUnlikeButton from "./LikeUnlikeButton";
@@ -9,6 +9,9 @@ import { Link } from "react-router-dom";
 import { Article } from "@/api/articles.api";
 import { fetchComments, CommentItem } from "@/api/comments.api";
 import { fetchLikes } from "@/api/likes.api";
+import { getArticleSummary } from "@/api/ai.api";
+import { ArticleChatDrawer } from "./ArticleChatDrawer";
+import { CommunityPulse } from "./CommunityPulse";
 
 type ArticleDetailPageProps = {
   article: Article;
@@ -19,6 +22,10 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
   const [comments, setComments] = useState<CommentItem[]>([]);
   const [likesCount, setLikesCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [aiTakeaways, setAiTakeaways] = useState<string[]>([]);
+  const [isSummaryLoading, setIsSummaryLoading] = useState(false);
+  const [showSummary, setShowSummary] = useState(true);
 
   useEffect(() => {
     if (articleId) {
@@ -32,6 +39,16 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           setIsLiked(data.isLiked);
         })
         .catch((err) => console.error("Error loading likes:", err));
+
+      // Fetch AI summary
+      setIsSummaryLoading(true);
+      getArticleSummary(articleId)
+        .then((res) => {
+          if (res.summary) setAiSummary(res.summary);
+          if (res.keyTakeaways) setAiTakeaways(res.keyTakeaways);
+        })
+        .catch((err) => console.warn("AI summary not ready:", err))
+        .finally(() => setIsSummaryLoading(false));
     }
   }, [articleId]);
 
@@ -125,6 +142,49 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           </div>
         </header>
 
+        {/* AI Executive Summary & Key Takeaways Card */}
+        {aiSummary && (
+          <div className="mb-10 rounded-2xl bg-gradient-to-r from-purple-950/20 via-background to-indigo-950/20 border border-purple-800/30 p-5 shadow-lg backdrop-blur-md">
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  <Bot className="w-4 h-4" />
+                </div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-purple-300">
+                  AI Executive Summary & Core Insights
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowSummary(!showSummary)}
+                className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+              >
+                {showSummary ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+
+            {showSummary && (
+              <div className="space-y-3 pt-1 text-sm text-foreground/90">
+                <p className="leading-relaxed bg-background/50 p-3 rounded-xl border border-border/40 text-xs sm:text-sm">
+                  {aiSummary}
+                </p>
+                {aiTakeaways && aiTakeaways.length > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    <div className="text-xs font-semibold text-muted-foreground">Key Technical Takeaways:</div>
+                    <ul className="space-y-1">
+                      {aiTakeaways.map((takeaway, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-xs text-foreground/80">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                          <span>{takeaway}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Featured Image (If available) */}
         {hasFeaturedImage && (
           <div className="relative mb-12 aspect-[16/9] sm:aspect-[21/9] max-h-[520px] w-full overflow-hidden rounded-2xl border border-border/70 shadow-2xl bg-muted/30">
@@ -168,10 +228,10 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           </div>
         </div>
 
-        {/* Comments Section */}
+        {/* Comments & Discussion Section */}
         <section id="comments" className="mt-12">
           <Card className="p-6 sm:p-8 bg-card/60 backdrop-blur-xl border border-border/80 shadow-xl rounded-2xl">
-            <div className="flex items-center justify-between gap-2 mb-8 pb-4 border-b border-border/60">
+            <div className="flex items-center justify-between gap-2 mb-4 pb-4 border-b border-border/60">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-lg bg-primary/10 text-primary">
                   <MessageCircle className="h-5 w-5" />
@@ -182,6 +242,9 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
               </div>
             </div>
 
+            {/* AI Community Debate Synthesis & Pulse */}
+            <CommunityPulse articleId={articleId} commentsCount={comments.length} />
+
             {/* Comment Form */}
             <CommentForm articleId={articleId} onCommentAdded={handleCommentAdded} />
 
@@ -190,6 +253,9 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
           </Card>
         </section>
       </main>
+
+      {/* Interactive AI Floating Reader Companion (RAG) */}
+      <ArticleChatDrawer articleId={articleId} articleTitle={article.title} />
     </div>
   );
 }

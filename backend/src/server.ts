@@ -14,6 +14,7 @@ import commentRoutes from "./routes/comment.routes.js";
 import likeRoutes from "./routes/like.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import aiRoutes from "./routes/ai.routes.js";
 
 // Load environment variables
 dotenv.config();
@@ -89,6 +90,7 @@ app.use("/api", commentRoutes); // For DELETE /api/comments/:id
 app.use("/api/articles", likeRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/ai", aiRoutes);
 
 // 404 Handler
 app.use((_req, res) => {

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { Comment } from "../models/Comment.js";
 import { Article } from "../models/Article.js";
+import { ModerationService } from "../services/moderation.service.js";
 
 const commentValidationSchema = z.object({
   body: z.string().min(1, "Comment body cannot be empty").trim(),
@@ -48,6 +49,16 @@ export async function createComment(req: Request, res: Response): Promise<void> 
       res.status(400).json({
         error: "Validation failed.",
         errors: validation.error.flatten().fieldErrors,
+      });
+      return;
+    }
+
+    // AI Safety & Moderation Guardrail Check
+    const moderation = await ModerationService.checkCommentSafety(validation.data.body);
+    if (!moderation.isSafe) {
+      res.status(400).json({
+        error: moderation.flagReason || "Comment flagged by AI safety moderation as violating community guidelines.",
+        flaggedByAi: true,
       });
       return;
     }

@@ -1,14 +1,31 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
+export interface IArticleChunk {
+  text: string;
+  embedding: number[];
+}
+
 export interface IArticle extends Document {
   title: string;
   content: string;
   category: string;
   featuredImage: string;
   author: Types.ObjectId;
+  aiSummary?: string;
+  aiKeyTakeaways?: string[];
+  suggestedCoverPrompt?: string;
+  chunks?: IArticleChunk[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+const articleChunkSchema = new Schema<IArticleChunk>(
+  {
+    text: { type: String, required: true },
+    embedding: { type: [Number], required: true },
+  },
+  { _id: false }
+);
 
 const articleSchema = new Schema<IArticle>(
   {
@@ -39,6 +56,20 @@ const articleSchema = new Schema<IArticle>(
       ref: "User",
       required: true,
       index: true,
+    },
+    aiSummary: {
+      type: String,
+    },
+    aiKeyTakeaways: {
+      type: [String],
+      default: [],
+    },
+    suggestedCoverPrompt: {
+      type: String,
+    },
+    chunks: {
+      type: [articleChunkSchema],
+      default: [],
     },
   },
   {
