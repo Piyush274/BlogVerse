@@ -14,6 +14,7 @@ export default function PaymentSuccessPage() {
       width: window.innerWidth,
       height: window.innerHeight,
     });
+    localStorage.setItem("blogverse_plan", "PRO");
   }, []);
 
   return (

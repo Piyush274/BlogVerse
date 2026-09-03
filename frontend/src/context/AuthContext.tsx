@@ -40,6 +40,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       try {
         const currentUser = await getMeUser();
+        const savedPlan = localStorage.getItem("blogverse_plan");
+        if (savedPlan && currentUser) {
+          currentUser.plan = savedPlan;
+        }
         setUser(currentUser);
       } catch (error) {
         console.error("Session expired or invalid token:", error);

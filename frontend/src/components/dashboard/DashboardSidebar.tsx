@@ -74,24 +74,6 @@ export const DashboardSidebar = ({ closeSheet }: { closeSheet?: () => void }) =>
             Explore All
           </Button>
         </Link>
-
-        <Button
-          variant="ghost"
-          className="w-full justify-start font-medium text-muted-foreground cursor-not-allowed opacity-60"
-          onClick={closeSheet}
-        >
-          <BarChart className="mr-2 h-4 w-4" />
-          Analytics
-        </Button>
-
-        <Button
-          variant="ghost"
-          className="w-full justify-start font-medium text-muted-foreground cursor-not-allowed opacity-60"
-          onClick={closeSheet}
-        >
-          <Settings className="mr-2 h-4 w-4" />
-          Settings
-        </Button>
       </nav>
     </div>
   );

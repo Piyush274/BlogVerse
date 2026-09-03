@@ -43,7 +43,7 @@ const EditArticlePage: React.FC<EditArticlePageProps> = ({ article }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-5xl mx-auto p-6 w-full">
       <Card className="bg-card/70 backdrop-blur-md border border-border/80 shadow-md">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Edit Article</CardTitle>
@@ -57,6 +57,7 @@ const EditArticlePage: React.FC<EditArticlePageProps> = ({ article }) => {
                 name="title"
                 defaultValue={article.title}
                 placeholder="Enter article title"
+                className="h-11 text-base"
                 required
               />
               {errors.title && (
@@ -72,21 +73,21 @@ const EditArticlePage: React.FC<EditArticlePageProps> = ({ article }) => {
                 id="category"
                 name="category"
                 defaultValue={article.category}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:bg-zinc-900 dark:text-zinc-100"
                 required
               >
-                <option value="">Select Category</option>
-                <option value="Data Science">Data Science</option>
-                <option value="Machine Learning">Machine Learning</option>
-                <option value="Cybersecurity">Cybersecurity</option>
-                <option value="Cloud Computing">Cloud Computing</option>
-                <option value="UI/UX Design">UI/UX Design</option>
-                <option value="DevOps">DevOps</option>
-                <option value="AI">Artificial Intelligence</option>
-                <option value="Blockchain">Blockchain</option>
-                <option value="Productivity">Productivity</option>
-                <option value="Career Advice">Career Advice</option>
-                <option value="Open Source">Open Source</option>
+                <option value="" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Select Category</option>
+                <option value="AI" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Artificial Intelligence (AI)</option>
+                <option value="Machine Learning" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Machine Learning</option>
+                <option value="Data Science" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Data Science</option>
+                <option value="Cloud Computing" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Cloud Computing</option>
+                <option value="DevOps" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">DevOps</option>
+                <option value="Cybersecurity" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Cybersecurity</option>
+                <option value="UI/UX Design" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">UI/UX Design</option>
+                <option value="Blockchain" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Blockchain</option>
+                <option value="Productivity" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Productivity</option>
+                <option value="Career Advice" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Career Advice</option>
+                <option value="Open Source" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Open Source</option>
               </select>
               {errors.category && (
                 <span className="font-medium text-sm text-destructive">

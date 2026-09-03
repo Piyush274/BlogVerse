@@ -55,7 +55,7 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         <div className="absolute left-1/2 -top-24 -translate-x-1/2 -z-10 h-[350px] w-[600px] rounded-full bg-gradient-to-tr from-primary/20 to-purple-600/20 blur-[120px] pointer-events-none" />
       </div>
 
-      <main className="container mx-auto px-4 py-8 sm:py-12 lg:px-8 max-w-4xl">
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-7xl w-full">
         {/* Navigation & Category Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <Link
@@ -127,11 +127,11 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
 
         {/* Featured Image (If available) */}
         {hasFeaturedImage && (
-          <div className="relative mb-12 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border/70 shadow-2xl bg-muted/30">
+          <div className="relative mb-12 aspect-[16/9] sm:aspect-[21/9] max-h-[520px] w-full overflow-hidden rounded-2xl border border-border/70 shadow-2xl bg-muted/30">
             <img
               src={article.featuredImage}
               alt={article.title}
-              className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.01]"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent pointer-events-none" />
@@ -139,7 +139,7 @@ export function ArticleDetailPage({ article }: ArticleDetailPageProps) {
         )}
 
         {/* Article Body Content */}
-        <article className="mb-12">
+        <article className="mb-12 max-w-5xl mx-auto">
           <div
             className="article-prose"
             dangerouslySetInnerHTML={{ __html: article.content || "" }}

@@ -95,45 +95,57 @@ export function Navbar() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="relative h-9 w-9 rounded-full ring-2 ring-primary/20 hover:ring-primary/40 transition-all p-0"
+                    className="relative h-10 w-10 rounded-full ring-2 ring-primary/30 hover:ring-primary/60 transition-all p-0"
                   >
-                    <Avatar className="h-9 w-9">
+                    <Avatar className="h-10 w-10">
                       <AvatarImage src={user.imageUrl} alt={user.name} />
                       <AvatarFallback className="bg-gradient-to-tr from-primary/20 to-purple-600/20 text-primary font-bold text-sm">
                         {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                       </AvatarFallback>
                     </Avatar>
+                    {/* User Plan Badge on Avatar */}
+                    <span className="absolute -bottom-1 -right-1 px-1.5 py-0.2 text-[9px] font-extrabold uppercase rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-sm border-2 border-background leading-tight">
+                      {user.plan || "PRO"}
+                    </span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 p-1 rounded-xl shadow-xl border">
+                <DropdownMenuContent
+                  align="end"
+                  className="w-64 p-2 rounded-2xl shadow-2xl border border-border bg-popover text-popover-foreground z-[100] dark:bg-zinc-950 dark:border-zinc-800"
+                >
                   <DropdownMenuLabel className="font-normal p-2">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-semibold leading-none">{user.name}</p>
+                    <div className="flex flex-col space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-sm font-bold leading-none truncate">{user.name}</p>
+                        <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-sm shrink-0">
+                          {user.plan || "PRO"}
+                        </span>
+                      </div>
                       <p className="text-xs leading-none text-muted-foreground truncate">
                         {user.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="my-1 bg-border/60" />
                   <DropdownMenuItem asChild>
-                    <Link to="/dashboard" className="cursor-pointer gap-2 py-2">
-                      <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
-                      <span>Dashboard</span>
+                    <Link to="/dashboard" className="cursor-pointer gap-2.5 py-2.5 rounded-lg">
+                      <LayoutDashboard className="h-4 w-4 text-primary" />
+                      <span className="font-medium">Dashboard</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/dashboard/articles/create" className="cursor-pointer gap-2 py-2">
-                      <FilePlus className="h-4 w-4 text-muted-foreground" />
-                      <span>Write Article</span>
+                    <Link to="/dashboard/articles/create" className="cursor-pointer gap-2.5 py-2.5 rounded-lg">
+                      <FilePlus className="h-4 w-4 text-purple-500" />
+                      <span className="font-medium">Write Article</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="my-1 bg-border/60" />
                   <DropdownMenuItem
                     onClick={handleLogout}
-                    className="cursor-pointer gap-2 py-2 text-destructive focus:text-destructive focus:bg-destructive/10"
+                    className="cursor-pointer gap-2.5 py-2.5 rounded-lg text-destructive focus:text-destructive focus:bg-destructive/10"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>Log out</span>
+                    <span className="font-medium">Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

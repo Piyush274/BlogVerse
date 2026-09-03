@@ -44,7 +44,7 @@ export default function CreateArticlePage() {
       <Navbar />
       <div className="flex-1 flex">
         <Sidebar />
-        <main className="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full">
+        <main className="flex-1 p-4 md:p-8 max-w-5xl mx-auto w-full">
           <div className="mb-6">
             <Link
               to="/dashboard"
@@ -69,7 +69,8 @@ export default function CreateArticlePage() {
                   <Input
                     id="title"
                     name="title"
-                    placeholder="Enter article title"
+                    placeholder="Enter article title..."
+                    className="h-11 text-base"
                     required
                   />
                   {errors.title && (
@@ -84,21 +85,21 @@ export default function CreateArticlePage() {
                   <select
                     id="category"
                     name="category"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:bg-zinc-900 dark:text-zinc-100"
                     required
                   >
-                    <option value="">Select Category</option>
-                    <option value="Data Science">Data Science</option>
-                    <option value="Machine Learning">Machine Learning</option>
-                    <option value="Cybersecurity">Cybersecurity</option>
-                    <option value="Cloud Computing">Cloud Computing</option>
-                    <option value="UI/UX Design">UI/UX Design</option>
-                    <option value="DevOps">DevOps</option>
-                    <option value="AI">Artificial Intelligence</option>
-                    <option value="Blockchain">Blockchain</option>
-                    <option value="Productivity">Productivity</option>
-                    <option value="Career Advice">Career Advice</option>
-                    <option value="Open Source">Open Source</option>
+                    <option value="" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Select Category</option>
+                    <option value="AI" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Artificial Intelligence (AI)</option>
+                    <option value="Machine Learning" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Machine Learning</option>
+                    <option value="Data Science" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Data Science</option>
+                    <option value="Cloud Computing" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Cloud Computing</option>
+                    <option value="DevOps" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">DevOps</option>
+                    <option value="Cybersecurity" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Cybersecurity</option>
+                    <option value="UI/UX Design" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">UI/UX Design</option>
+                    <option value="Blockchain" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Blockchain</option>
+                    <option value="Productivity" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Productivity</option>
+                    <option value="Career Advice" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Career Advice</option>
+                    <option value="Open Source" className="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100">Open Source</option>
                   </select>
                   {errors.category && (
                     <span className="font-medium text-sm text-destructive">
@@ -124,13 +125,13 @@ export default function CreateArticlePage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Content</Label>
+                  <Label htmlFor="content">Content (Rich Article Body)</Label>
                   <ReactQuill
                     theme="snow"
                     value={content}
                     onChange={setContent}
-                    placeholder="Write your article content here..."
-                    className="bg-background rounded-md min-h-[200px]"
+                    placeholder="Write your article content here... Add headings, code blocks, lists, and quotes."
+                    className="bg-background rounded-md"
                   />
                   {errors.content && (
                     <span className="font-medium text-sm text-destructive">

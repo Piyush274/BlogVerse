@@ -7,6 +7,7 @@ export interface Author {
   email: string;
   imageUrl?: string;
   role?: string;
+  plan?: "STARTER" | "PRO" | "ENTERPRISE" | string;
 }
 
 export interface Article {
