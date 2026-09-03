@@ -43,13 +43,17 @@ export function Navbar() {
         <div className="flex items-center gap-6">
           <Link
             to="/"
-            className="flex items-center gap-2 text-xl font-semibold tracking-tight hover:opacity-80 transition-opacity"
+            className="flex items-center gap-2.5 text-xl font-bold tracking-tight hover:opacity-90 transition-opacity group"
           >
-            <PenTool className="h-5 w-5 text-primary" />
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            <img
+              src="/logo.svg"
+              alt="BlogVerse Logo"
+              className="h-8 w-8 rounded-lg shadow-sm transition-transform group-hover:scale-105"
+            />
+            <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent font-extrabold">
               BlogVerse
             </span>
-            <span className="hidden sm:inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-2">
+            <span className="hidden sm:inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-1">
               <Sparkles className="h-3 w-3 mr-1" />
               New
             </span>

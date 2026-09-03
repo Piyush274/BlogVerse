@@ -9,9 +9,9 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Column 1: Brand */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-            <PenTool className="h-5 w-5 text-primary" />
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2.5">
+            <img src="/logo.svg" alt="BlogVerse Logo" className="h-7 w-7 rounded-md" />
+            <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent font-extrabold">
               BlogVerse
             </span>
           </h2>

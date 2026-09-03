@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="bv-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="50%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+    <linearGradient id="bv-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818CF8" />
+      <stop offset="100%" stop-color="#C084FC" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded Squircle Background -->
+  <rect width="100" height="100" rx="26" fill="url(#bv-grad)" />
+  
+  <!-- Subtle inner border overlay -->
+  <rect x="2" y="2" width="96" height="96" rx="24" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" />
+  
+  <!-- Quill / Pen Nib Icon -->
+  <path d="M68 24C68 24 57 31 51 37L31 57L28 72L43 69L63 49C69 43 76 32 76 32C76 32 71 25 68 24Z" fill="white" />
+  <path d="M43 69L40 60L49 51L54 56L43 69Z" fill="url(#bv-glow)" opacity="0.4" />
+  <circle cx="34" cy="66" r="2.5" fill="#4F46E5" />
+  <path d="M64 28L72 36" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="73" cy="23" r="3" fill="#FDE047" />
+</svg>
