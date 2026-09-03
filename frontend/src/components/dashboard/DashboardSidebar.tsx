@@ -17,22 +17,30 @@ export const DashboardSidebar = ({ closeSheet }: { closeSheet?: () => void }) =>
 
   return (
     <div className="h-full px-4 py-6">
-      <div className="flex items-center gap-2 mb-8 px-2">
-        <Link
-          to="/"
-          className="flex items-center gap-2.5 text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
-          onClick={closeSheet}
-        >
-          <img src="/logo.svg" alt="BlogVerse" className="h-7 w-7 rounded-md" />
-          <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent font-extrabold">
-            BlogVerse
-          </span>
-          <span className="hidden sm:inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-1">
-            <Sparkles className="h-3 w-3 mr-1" />
-            New
-          </span>
-        </Link>
-      </div>
+      {closeSheet ? (
+        <div className="flex items-center gap-2 mb-6 px-2">
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 text-xl font-bold tracking-tight hover:opacity-80 transition-opacity"
+            onClick={closeSheet}
+          >
+            <img src="/logo.svg" alt="BlogVerse" className="h-7 w-7 rounded-md" />
+            <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent font-extrabold">
+              BlogVerse
+            </span>
+            <span className="hidden sm:inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-semibold border-transparent bg-primary text-primary-foreground hover:bg-primary/80 ml-1">
+              <Sparkles className="h-3 w-3 mr-1" />
+              New
+            </span>
+          </Link>
+        </div>
+      ) : (
+        <div className="px-3 mb-4">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground/70">
+            Workspace
+          </p>
+        </div>
+      )}
       <nav className="space-y-1">
         <Link to="/dashboard">
           <Button
